@@ -141,10 +141,47 @@ export function useStore() {
 }
 ```
 
-> 💡 **¿Para qué sirve?**
-> - Compartir estados entre componentes sin prop drilling
-> - Manejar datos globales de la aplicación
-> - Evitar pasar props a través de múltiples niveles
+> 💡 **Explicación técnica detallada:**
+
+#### 🔧 **¿Qué devuelve `createContext()`?**
+```jsx
+const StoreContext = createContext()
+```
+- `createContext()` devuelve un **objeto** con dos componentes principales:
+  - `Provider`: Componente que envuelve la aplicación y provee los valores
+  - `Consumer`: Componente para consumir los valores (raramente usado, preferimos `useContext`)
+
+#### 🏗️ **¿Por qué usamos una constante?**
+- Necesitamos **almacenar la referencia** al contexto para poder:
+  1. Usar `.Provider` en el componente StoreProvider
+  2. Pasarle la referencia a `useContext()` en la función useStore
+
+#### 📦 **¿Qué hace `StoreContext.Provider`?**
+```jsx
+<StoreContext.Provider value={{...valores}}>
+  {children}
+</StoreContext.Provider>
+```
+- Es el **componente proveedor** que viene del objeto que retorna `createContext()`
+- Recibe una prop obligatoria llamada `value` con los datos a compartir
+- Todo componente hijo (`children`) tendrá acceso a estos valores
+
+#### 🎣 **¿Cómo funciona `useContext(StoreContext)`?**
+```jsx
+export function useStore() {
+  return useContext(StoreContext)
+}
+```
+- `useContext()` es un hook que **consume** el contexto
+- Le pasamos `StoreContext` para que sepa **qué contexto** queremos usar
+- Devuelve exactamente lo que pusimos en la prop `value` del Provider
+- Por eso cuando hacemos `const {userName, setUserName} = useStore()` obtenemos nuestras variables
+
+#### 🌐 **¿Para qué sirve este patrón?**
+- **Compartir estados** entre componentes sin prop drilling
+- **Manejar datos globales** de la aplicación
+- **Evitar pasar props** a través de múltiples niveles
+- **Centralizar el estado** en un solo lugar
 
 ### 12. ⚙️ Configurar main.jsx
 ```jsx
