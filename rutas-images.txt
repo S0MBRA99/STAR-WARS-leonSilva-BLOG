@@ -1,0 +1,5 @@
+https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/planets/2.jpg
+*characters
+*planets
+*starships
+https://raw.githubusercontent.com/tbone849/star-wars-guide/refs/heads/master/build/assets/img/placeholder.jpg
